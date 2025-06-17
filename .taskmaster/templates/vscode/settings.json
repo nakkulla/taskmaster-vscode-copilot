@@ -16,7 +16,10 @@
       "text": "Taskmaster MCP 도구를 우선적으로 사용하여 작업을 관리합니다. CLI 명령어보다 MCP 도구를 권장합니다."
     },
     {
-      "text": "작업 관리 및 개발 워크플로우에서 체계적인 접근 방식을 사용합니다."
+      "text": "체계적인 작업 관리 및 개발 워크플로우를 사용합니다: PRD → 브리핑 → 승인 → 개발"
+    },
+    {
+      "text": "Sequential Thinking, Tavily, Context7, GitHub, Obsidian 등 MCP 도구를 적극 활용합니다."
     },
     {
       "file": ".github/copilot-instructions.md"
