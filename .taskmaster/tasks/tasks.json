@@ -1,0 +1,456 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository",
+        "description": "Initialize the project repository and establish the required directory structure for GitHub Copilot custom instructions and VS Code settings.",
+        "details": "Create the root project directory. Initialize a Git repository if not already present. Create the `.github` directory and subdirectories as specified in the PRD. Use the latest Git version (2.45+ recommended) and ensure the repository is compatible with GitHub Copilot and VS Code.",
+        "testStrategy": "Verify the directory structure matches the PRD specification. Check that the repository can be cloned and opened in VS Code.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Create Main Copilot Instructions File",
+        "description": "Create the main `.github/copilot-instructions.md` file with project-wide coding guidelines and taskmaster MCP-specific instructions.",
+        "details": "Write a Markdown file at `.github/copilot-instructions.md` containing concise, self-contained instructions for coding style, TypeScript/Node.js best practices, and MCP-specific guidance. Use GitHub Copilot best practices for instruction clarity and brevity[1][4]. Avoid overly complex or restrictive instructions.",
+        "testStrategy": "Validate the file exists and contains all required sections. Check for Markdown syntax errors and ensure instructions are clear and actionable.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Configure VS Code Workspace Settings",
+        "description": "Set up VS Code workspace settings for code generation, test generation, and commit message generation.",
+        "details": "Create or update `.vscode/settings.json` to include Copilot-related settings. Reference custom instruction files for code, test, and commit message generation. Use the latest VS Code (1.90+ recommended) and ensure compatibility with GitHub Copilot and Cursor AI.",
+        "testStrategy": "Open the project in VS Code and confirm settings are applied. Test code generation and check that custom instructions are referenced.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Create MCP Development Instructions",
+        "description": "Write detailed instructions for MCP server development in `.github/instructions/mcp-development.instructions.md`.",
+        "details": "Create a Markdown file at `.github/instructions/mcp-development.instructions.md` with guidelines for MCP server architecture, API design, and best practices. Use clear, actionable language and reference relevant TypeScript/Node.js libraries (e.g., Express 4.18+, TypeScript 5.3+).",
+        "testStrategy": "Check file existence and content. Validate that instructions are specific to MCP server development and actionable for developers.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Create Testing Guidelines",
+        "description": "Write testing guidelines in `.github/instructions/testing.instructions.md`.",
+        "details": "Create a Markdown file at `.github/instructions/testing.instructions.md` with guidelines for writing unit and integration tests. Recommend testing frameworks (e.g., Jest 29+, Mocha 10+). Include best practices for test structure, mocking, and coverage.",
+        "testStrategy": "Verify file content covers test writing, structure, and framework recommendations. Ensure instructions are clear and actionable.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "in-progress",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Create TypeScript Coding Style Guide",
+        "description": "Write TypeScript coding style guidelines in `.github/instructions/typescript.instructions.md`.",
+        "details": "Create a Markdown file at `.github/instructions/typescript.instructions.md` with guidelines for TypeScript code style, linting (ESLint 8+), formatting (Prettier 3+), and best practices. Reference the latest TypeScript documentation and community standards.",
+        "testStrategy": "Check file content for style, linting, and formatting guidelines. Ensure instructions are up-to-date and actionable.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Create Documentation Guidelines",
+        "description": "Write documentation guidelines in `.github/instructions/documentation.instructions.md`.",
+        "details": "Create a Markdown file at `.github/instructions/documentation.instructions.md` with guidelines for code documentation, README structure, and inline comments. Recommend tools like TypeDoc or JSDoc for API documentation.",
+        "testStrategy": "Verify file content covers documentation standards and tool recommendations. Ensure instructions are clear and actionable.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Integrate Prompt Files for Advanced Customization",
+        "description": "Create prompt files for advanced AI customization and automation.",
+        "details": "Create `.prompt.md` files in relevant directories (e.g., `.github/prompts`, `.vscode/prompts`) for advanced Copilot and Cursor AI customization. Use Markdown format and reference best practices for prompt engineering[5].",
+        "testStrategy": "Check prompt file existence and content. Validate that prompts are clear and actionable for AI assistants.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Optimize .cursor-rules File",
+        "description": "Optimize the `.cursor-rules` file for taskmaster workflow and AI integration.",
+        "details": "Review and update the `.cursor-rules` file to align with project-specific workflows and AI assistant requirements. Ensure compatibility with both VS Code and Cursor AI. Reference the latest Cursor documentation for rule syntax.",
+        "testStrategy": "Validate that the `.cursor-rules` file is present and correctly formatted. Test workflow automation and AI integration.",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Automate Settings Application",
+        "description": "Implement automation for applying project settings and custom instructions.",
+        "details": "Create scripts or documentation to automate the application of VS Code workspace settings and custom instructions. Use shell scripts or VS Code extensions as needed. Ensure automation is idempotent and well-documented.",
+        "testStrategy": "Run automation scripts and verify settings and instructions are applied correctly. Check for idempotency and documentation clarity.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Document Usage and Guidelines",
+        "description": "Create comprehensive documentation and usage guides for developers and AI assistants.",
+        "details": "Write a README and usage guide explaining how to use custom instructions, settings, and prompt files. Include examples, best practices, and troubleshooting tips. Use Markdown and ensure documentation is up-to-date.",
+        "testStrategy": "Review documentation for completeness, clarity, and accuracy. Test example workflows and validate troubleshooting steps.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Test and Validate Full Workflow",
+        "description": "Test the full workflow, gather feedback, and refine implementation.",
+        "details": "Conduct end-to-end testing of the custom instructions, settings, and automation. Gather feedback from developers and AI assistants. Refine files and documentation based on feedback. Use GitHub Issues or similar for tracking feedback.",
+        "testStrategy": "Test all features in a real development environment. Collect and address feedback. Ensure all files and settings work as intended.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Convert Cursor Rules to VS Code Settings JSON Format",
+        "description": "Convert the existing taskmaster.mdc cursor rules to VS Code Copilot customization format in .vscode/settings.json, following the official VS Code Copilot customization guidelines.",
+        "details": "This task involves analyzing and converting the existing cursor rules to VS Code Copilot customization format:\n\n1. Analyze the current taskmaster.mdc file to identify all cursor rules and instructions\n2. Study the VS Code Copilot customization documentation (https://code.visualstudio.com/docs/copilot/copilot-customization) to understand the proper format and capabilities\n3. Create or update the .vscode/settings.json file with appropriate GitHub.copilot.* settings\n4. Convert the cursor rules to Korean language instructions where appropriate\n5. Implement the following settings:\n   - github.copilot.editor.enableAutoCompletions\n   - github.copilot.chat.localeOverride (set to \"ko\" for Korean)\n   - github.copilot.advanced.indentationMode\n   - github.copilot.editor.enableCodeActions\n   - github.copilot.chat.filePaths for custom instructions\n\n6. Include specific taskmaster MCP tool usage guidance in the custom instructions\n7. Ensure the JSON is properly formatted and valid\n8. Document the conversion process and rationale for future reference\n\nThe implementation should maintain the original intent and functionality of the cursor rules while adapting them to VS Code's specific format and capabilities.",
+        "testStrategy": "1. Validate the .vscode/settings.json file exists and contains valid JSON\n2. Verify all required GitHub Copilot settings are present and correctly configured\n3. Test the custom instructions by opening VS Code and checking that Copilot is using the Korean language instructions\n4. Verify that the taskmaster MCP tool usage guidance is correctly included and accessible\n5. Test code completion functionality to ensure it works as expected with the new settings\n6. Compare the behavior with the original cursor rules to ensure equivalent functionality\n7. Have a Korean-speaking team member review the translated instructions for accuracy and clarity\n8. Document any differences in behavior between the original cursor rules and the new VS Code settings",
+        "status": "done",
+        "dependencies": [
+          3,
+          9
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Analyze taskmaster.mdc Cursor Rules",
+            "description": "Thoroughly analyze the existing taskmaster.mdc file to identify and categorize all cursor rules and instructions that need to be converted.",
+            "dependencies": [],
+            "details": "1. Open and review the taskmaster.mdc file\n2. Extract all cursor rules and categorize them by type/purpose\n3. Document each rule's intent and functionality\n4. Identify which rules can be directly mapped to VS Code Copilot settings\n5. Note any rules that might require special handling or adaptation\n<info added on 2025-06-15T03:41:01.708Z>\ntaskmaster.mdc 파일 분석 결과:\n\n**주요 구성 요소:**\n\n1. **파일 헤더 (Front Matter)**\n   - description: 포괄적인 Taskmaster MCP 도구 및 CLI 명령어 참조\n   - globs: **/* (모든 파일 적용)\n   - alwaysApply: true (항상 적용)\n\n2. **문서 구조**\n   - 32개의 주요 명령어/도구 카테고리\n   - 각 도구별 MCP와 CLI 명령어 매핑\n   - 상세한 매개변수 설명\n   - 사용법 및 주의사항\n\n3. **VS Code 설정으로 변환 가능한 요소들:**\n   - 전체 문서 내용을 Custom Instructions로 변환\n   - 한국어 지원 설정 필요\n   - Taskmaster MCP 도구 사용 가이드를 포함한 코드 생성 지침\n   - 환경 변수 설정 가이드\n\n4. **변환 전략:**\n   - .github/copilot-instructions.md 파일 생성 (워크스페이스 전체 적용)\n   - settings.json에 기본 설정 및 한국어 지원 설정\n   - 복잡한 명령어 참조는 별도 instruction 파일로 분리\n</info added on 2025-06-15T03:41:01.708Z>",
+            "status": "done",
+            "testStrategy": "Create a comprehensive inventory document listing all identified rules with their purpose and intended behavior"
+          },
+          {
+            "id": 2,
+            "title": "Research VS Code Copilot Customization Options",
+            "description": "Study the VS Code Copilot customization documentation to understand available settings and capabilities for implementing the cursor rules.",
+            "dependencies": [],
+            "details": "1. Review the official VS Code Copilot customization documentation\n2. Document all relevant settings including github.copilot.editor.* and github.copilot.chat.* options\n3. Research how custom instructions work in VS Code Copilot\n4. Identify limitations or differences compared to the current taskmaster.mdc approach\n5. Determine how to implement Korean language support",
+            "status": "done",
+            "testStrategy": "Create a reference document mapping VS Code Copilot settings to their capabilities and limitations"
+          },
+          {
+            "id": 3,
+            "title": "Map Cursor Rules to VS Code Settings",
+            "description": "Create a detailed mapping between existing cursor rules and the corresponding VS Code Copilot settings and custom instructions.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "1. Create a mapping table between taskmaster.mdc rules and VS Code settings\n2. Determine which rules go into settings.json vs. custom instructions\n3. Translate relevant instructions to Korean where appropriate\n4. Identify any rules that cannot be directly mapped and develop alternatives\n5. Document the rationale for each mapping decision\n<info added on 2025-06-15T03:41:32.174Z>\n# Cursor Rules to VS Code Settings 매핑 계획\n\n**1. VS Code Settings.json 설정**\n```json\n{\n  \"github.copilot.chat.localeOverride\": \"ko\",\n  \"github.copilot.chat.codeGeneration.useInstructionFiles\": true,\n  \"github.copilot.editor.enableAutoCompletions\": true,\n  \"github.copilot.editor.enableCodeActions\": true,\n  \"github.copilot.chat.codeGeneration.instructions\": [\n    {\n      \"text\": \"한국어로 응답하고 설명합니다.\"\n    },\n    {\n      \"text\": \"Taskmaster MCP 도구를 우선적으로 사용하여 작업을 관리합니다.\"\n    },\n    {\n      \"file\": \".github/copilot-instructions.md\"\n    }\n  ]\n}\n```\n\n**2. .github/copilot-instructions.md 구조**\n- 전체 taskmaster 도구 참조 가이드\n- 한국어 버전으로 번역\n- MCP 도구 우선 사용 지침\n- 환경 설정 가이드\n\n**3. 추가 instruction 파일들**\n- `.github/instructions/taskmaster-basic.instructions.md` (기본 사용법)\n- `.github/instructions/taskmaster-advanced.instructions.md` (고급 기능)\n\n**4. 변환 원칙**\n- 모든 지침을 한국어로 번역\n- MCP 도구를 우선적으로 안내\n- 실용적인 예제 포함\n- 워크플로우 가이드 제공\n</info added on 2025-06-15T03:41:32.174Z>",
+            "status": "done",
+            "testStrategy": "Review the mapping with team members to ensure all functionality is preserved"
+          },
+          {
+            "id": 4,
+            "title": "Implement Basic VS Code Settings",
+            "description": "Create or update the .vscode/settings.json file with the basic GitHub Copilot configuration settings.",
+            "dependencies": [
+              3
+            ],
+            "details": "1. Create/update .vscode/settings.json file\n2. Implement the following settings:\n   - github.copilot.editor.enableAutoCompletions\n   - github.copilot.chat.localeOverride (set to \"ko\")\n   - github.copilot.advanced.indentationMode\n   - github.copilot.editor.enableCodeActions\n3. Ensure proper JSON formatting and validation\n4. Document each setting's purpose and configuration",
+            "status": "done",
+            "testStrategy": "Validate the settings.json file with a JSON validator and test basic functionality in VS Code"
+          },
+          {
+            "id": 5,
+            "title": "Implement Custom Instructions",
+            "description": "Develop and implement custom instructions for VS Code Copilot that capture the more complex cursor rules from taskmaster.mdc.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "1. Create custom instruction content based on the mapping from subtask 3\n2. Configure github.copilot.chat.filePaths setting to point to custom instruction files\n3. Include specific taskmaster MCP tool usage guidance\n4. Translate instructions to Korean where appropriate\n5. Organize instructions in a logical, structured manner\n6. Ensure all instructions follow VS Code Copilot's format requirements",
+            "status": "done",
+            "testStrategy": "Test the custom instructions with various prompts to ensure they guide Copilot's behavior as expected"
+          },
+          {
+            "id": 6,
+            "title": "Test and Document Conversion",
+            "description": "Test the complete implementation and create documentation for the conversion process and new setup.",
+            "dependencies": [
+              4,
+              5
+            ],
+            "details": "1. Test all implemented settings and custom instructions\n2. Compare behavior with original taskmaster.mdc functionality\n3. Make adjustments as needed to ensure feature parity\n4. Create comprehensive documentation explaining:\n   - The conversion process and methodology\n   - The new settings structure and purpose\n   - How to maintain or update the settings in the future\n   - Any limitations or differences from the original implementation\n5. Include examples of how the new setup works\n<info added on 2025-06-15T03:46:49.637Z>\n## Conversion and Testing Results\n\n**Completed Files:**\n1. `.vscode/settings.json` - VS Code Copilot basic settings (JSON validation passed)\n2. `.github/copilot-instructions.md` - Workspace-wide instructions\n3. `.github/instructions/taskmaster-basic.instructions.md` - Basic usage\n4. `.github/instructions/taskmaster-advanced.instructions.md` - Advanced features\n5. `.github/instructions/development-workflow.instructions.md` - Development workflow\n6. `VSCODE_SETUP.md` - Setup guide and conversion documentation\n\n**Key Configuration Elements:**\n- Korean language support (`localeOverride: \"ko\"`)\n- Custom instruction files activated\n- Task-specific instructions (code generation, testing, commit messages, code review, PR descriptions)\n- Priority guidelines for Taskmaster MCP tools\n\n**Validation Results:**\n- No syntax errors in JSON files\n- All file paths verified as correct\n- Instruction structure complies with VS Code guidelines\n- Korean translation completed\n\nAll functionality from the original cursor rules has been successfully converted to VS Code settings.\n</info added on 2025-06-15T03:46:49.637Z>",
+            "status": "done",
+            "testStrategy": "Perform side-by-side testing with the original taskmaster.mdc and the new VS Code settings to verify equivalent functionality"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Convert self_improve.mdc to VS Code Copilot Instructions in Korean",
+        "description": "Convert the existing self_improve.mdc file into a VS Code Copilot instruction format, translate it to Korean, and save it in the .github/instructions/ directory with appropriate guidelines for code improvement.",
+        "status": "done",
+        "dependencies": [
+          9,
+          13
+        ],
+        "priority": "medium",
+        "details": "This task involves analyzing and converting the self_improve.mdc file to a VS Code Copilot instruction format in Korean:\n\n1. Analyze the current self_improve.mdc file structure and content:\n   - Identify all cursor rules and instructions related to code improvement\n   - Document the key principles and guidelines contained in the file\n   - Note any specific patterns or formats used in the cursor rules\n\n2. Study VS Code Copilot instruction format requirements:\n   - Review the VS Code Copilot customization documentation\n   - Understand the proper structure and syntax for instruction files\n   - Identify any limitations or differences compared to cursor rules\n\n3. Convert the content to VS Code Copilot instruction format:\n   - Restructure the content to match VS Code Copilot's expected format\n   - Ensure all important guidelines are preserved in the conversion\n   - Optimize instructions for Copilot's understanding and implementation\n   - Include specific sections for improvement trigger conditions, pattern recognition, and quality validation\n\n4. Translate the content to Korean:\n   - Ensure technical terms are accurately translated\n   - Maintain the original meaning and intent of each instruction\n   - Use natural, fluent Korean language appropriate for technical documentation\n\n5. Add comprehensive code improvement guidelines:\n   - Include best practices for code refactoring\n   - Add guidelines for performance optimization\n   - Provide instructions for maintaining code quality\n   - Include examples where appropriate\n   - Add TypeScript/JavaScript and React component pattern examples\n   - Include guideline update rules and lifecycle management for rules\n\n6. Save the file in the .github/instructions/ directory:\n   - Use the filename 'code-improvement.instructions.md'\n   - Ensure proper Markdown formatting\n   - Add appropriate headers and structure for readability\n\n7. Document the purpose and usage of the new instruction file in the project documentation\n\n8. Add Taskmaster MCP integration guidelines:\n   - Document how to use MCP tools for improvement task management\n   - Include workflow examples for continuous improvement processes\n\n9. Update VS Code settings:\n   - Add instructions to 'codeGeneration.instructions' configuration\n   - Add code review guidelines to 'reviewSelection.instructions' configuration",
+        "testStrategy": "1. Verify file creation and location:\n   - Confirm the instruction file exists in the .github/instructions/ directory\n   - Verify the filename is 'code-improvement.instructions.md'\n\n2. Validate content conversion:\n   - Compare with the original self_improve.mdc file to ensure all key guidelines were preserved\n   - Check that the structure follows VS Code Copilot instruction format requirements\n   - Verify no critical information was lost in the conversion process\n   - Confirm all six major conversion components are included (improvement triggers, guideline updates, pattern recognition, quality validation, rule lifecycle, Taskmaster integration)\n\n3. Assess Korean translation quality:\n   - Have a Korean-speaking team member review the translation for accuracy\n   - Ensure technical terms are correctly translated\n   - Verify the instructions remain clear and actionable in Korean\n\n4. Test with VS Code Copilot:\n   - Open VS Code with the GitHub Copilot extension enabled\n   - Verify Copilot recognizes and applies the custom instructions\n   - Test several code improvement scenarios to confirm Copilot follows the guidelines\n   - Verify both code generation and code review functionalities work with the instructions\n\n5. Documentation review:\n   - Check that the purpose and usage of the instruction file is documented\n   - Verify the documentation accurately describes how to use the instructions with Copilot\n   - Confirm Taskmaster MCP integration guidelines are clear and actionable\n\n6. VS Code settings verification:\n   - Confirm instructions are properly added to the appropriate VS Code settings\n   - Test that both code generation and code review features use the correct instructions\n\n7. Peer review:\n   - Have another developer review the instruction file for completeness and clarity",
+        "subtasks": [
+          {
+            "id": 14.1,
+            "description": "Create .github/instructions/code-improvement.instructions.md file with Korean translation",
+            "status": "completed"
+          },
+          {
+            "id": 14.2,
+            "description": "Document the six major components: improvement triggers, guideline updates, pattern recognition, quality validation, rule lifecycle, and Taskmaster integration",
+            "status": "completed"
+          },
+          {
+            "id": 14.3,
+            "description": "Add TypeScript/JavaScript and React component pattern examples",
+            "status": "completed"
+          },
+          {
+            "id": 14.4,
+            "description": "Update VS Code settings for codeGeneration.instructions and reviewSelection.instructions",
+            "status": "done"
+          },
+          {
+            "id": 14.5,
+            "description": "Document Taskmaster MCP integration for improvement task management",
+            "status": "completed"
+          },
+          {
+            "id": 14.6,
+            "description": "Conduct final review of Korean translation quality and technical accuracy",
+            "status": "done"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Convert cursor_rules.mdc to VS Code Copilot Instructions in Korean",
+        "description": "Convert the existing cursor_rules.mdc file into VS Code Copilot instruction format in Korean and save it in the .github/instructions/ directory with appropriate guidelines for the development environment.",
+        "status": "done",
+        "dependencies": [
+          9,
+          13
+        ],
+        "priority": "medium",
+        "details": "This task involves converting the cursor_rules.mdc file to VS Code Copilot instruction format in Korean, which has now been completed with the creation of the coding-guidelines.instructions.md file. The conversion included:\n\n1. Key content areas converted and translated:\n   - 필수 코드 구조 및 형식 (Essential code structure and format) - Including file headers, comment rules, and naming conventions\n   - 코드 예제 작성 가이드 (Code example writing guide) - For TypeScript/JavaScript and React component patterns\n   - 문서화 및 주석 가이드라인 (Documentation and comment guidelines) - Using JSDoc format for function documentation\n   - 오류 처리 및 로깅 (Error handling and logging) - Standard error handling patterns\n   - 테스트 코드 작성 규칙 (Test code writing rules) - Korean test case naming conventions\n   - VS Code 작업 환경 최적화 (VS Code work environment optimization) - Extensions and workspace settings\n   - Taskmaster 연동 개발 워크플로우 (Taskmaster integration development workflow) - MCP tool utilization guide\n   - 코드 리뷰 가이드라인 (Code review guidelines) - Checkpoints and review comment templates\n\n2. VS Code integration:\n   - The file has been properly configured for VS Code's `codeGeneration.instructions` setting\n   - Guidelines have been adapted to work specifically with VS Code and GitHub Copilot\n\n3. File location and format:\n   - Successfully created at `.github/instructions/coding-guidelines.instructions.md`\n   - Follows proper Markdown formatting for VS Code instruction files\n\nThe original structural guidelines from cursor_rules.mdc have been successfully transformed into practical coding rules that work well in the VS Code environment.",
+        "testStrategy": "1. Verify file creation and location:\n   - Confirm the instruction file exists at `.github/instructions/coding-guidelines.instructions.md`\n   - Verify the file has proper Markdown formatting\n\n2. Validate content conversion:\n   - Compare with the original cursor_rules.mdc file to ensure all key guidelines were preserved\n   - Verify that all eight key content areas are properly included:\n     * 필수 코드 구조 및 형식 (Essential code structure and format)\n     * 코드 예제 작성 가이드 (Code example writing guide)\n     * 문서화 및 주석 가이드라인 (Documentation and comment guidelines)\n     * 오류 처리 및 로깅 (Error handling and logging)\n     * 테스트 코드 작성 규칙 (Test code writing rules)\n     * VS Code 작업 환경 최적화 (VS Code work environment optimization)\n     * Taskmaster 연동 개발 워크플로우 (Taskmaster integration development workflow)\n     * 코드 리뷰 가이드라인 (Code review guidelines)\n\n3. Verify Korean translation quality:\n   - Have a Korean-speaking team member review the translation\n   - Ensure technical terms are correctly translated\n   - Verify the instructions are clear and understandable in Korean\n\n4. Test VS Code integration:\n   - Confirm the VS Code `codeGeneration.instructions` setting has been updated\n   - Open the project in VS Code with GitHub Copilot enabled\n   - Verify that Copilot recognizes and follows the instructions\n   - Test several coding scenarios to ensure the guidelines are being applied\n\n5. Validate MCP tool integration:\n   - Test the integration with Taskmaster MCP tools\n   - Verify that the workflow functions as expected\n   - Ensure the instructions enhance the development process with MCP\n\n6. Document any differences in behavior:\n   - Note any differences in how VS Code Copilot interprets the instructions compared to Cursor\n   - Document any recommendations for future improvements",
+        "subtasks": [
+          {
+            "id": 15.1,
+            "title": "Verify VS Code Copilot instruction file",
+            "status": "done",
+            "description": "Review the completed `.github/instructions/coding-guidelines.instructions.md` file to ensure it meets all requirements and properly integrates with VS Code Copilot."
+          },
+          {
+            "id": 15.2,
+            "title": "Test Korean language instructions with VS Code Copilot",
+            "status": "done",
+            "description": "Test the Korean language instructions with VS Code Copilot to verify proper recognition and application of the coding guidelines."
+          },
+          {
+            "id": 15.3,
+            "title": "Document differences between Cursor and VS Code Copilot behavior",
+            "status": "done",
+            "description": "Create documentation noting any differences in how VS Code Copilot interprets the instructions compared to Cursor, and provide recommendations for optimization."
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Convert dev_workflow.mdc to VS Code Copilot Instructions in Korean",
+        "description": "Convert the existing dev_workflow.mdc file into VS Code Copilot instruction format in Korean and save it in the .github/instructions/ directory with appropriate guidelines for Taskmaster workflow.",
+        "status": "in-progress",
+        "dependencies": [
+          9,
+          13,
+          15
+        ],
+        "priority": "medium",
+        "details": "This task involves converting the dev_workflow.mdc file to VS Code Copilot instruction format in Korean, which has now been completed with the following key components:\n\n1. Successfully created `.github/instructions/taskmaster-workflow.instructions.md` containing comprehensive Taskmaster development workflow guidelines in Korean\n\n2. The converted document includes the following key sections:\n   - 기본 개발 사이클 (Basic development cycle) - 8단계 반복 워크플로우\n   - 기본 워크플로우 (Basic workflow) - 단순 프로젝트용 프로세스\n   - 고급 워크플로우 (Advanced workflow) - 태그 기반 관리 시스템\n   - 태그 시스템 활용 (Tag system usage) - 4가지 주요 사용 사례\n   - 버전별 개발 접근법 (Version-based development approach) - 프로토타입 vs 프로덕션\n   - 작업 세부 관리 (Detailed task management) - 구조, 의존성, 재구성\n   - 하위 작업 구현 프로세스 (Subtask implementation process) - 10단계 반복 사이클\n   - 구현 편차 처리 (Implementation deviation handling) - 계획 변경 대응\n   - 작업 상태 관리 (Task status management) - 상태별 활용법\n   - 구성 관리 (Configuration management) - 설정 파일 구조\n   - 최적화된 작업 흐름 (Optimized workflow) - 효율적 명령어 사용\n\n3. Key features of the conversion:\n   - Compressed the 412-line original document into a focused guide centered on core elements\n   - Fully translated to Korean while maintaining technical clarity\n   - Included TypeScript interfaces and code examples for practical reference\n   - Provided command guidance centered on MCP tools\n\n4. VS Code configuration:\n   - Updated `codeGeneration.instructions` to include the workflow guide",
+        "testStrategy": "1. Verify file creation and location:\n   - Confirm the instruction file exists in the `.github/instructions/` directory with the name `taskmaster-workflow.instructions.md`\n   - Verify the file has proper Markdown formatting and structure\n\n2. Validate content conversion:\n   - Compare with the original dev_workflow.mdc file to ensure all key guidelines were converted\n   - Verify that all 11 sections (from basic development cycle to optimized workflow) are included and comprehensive\n   - Check that the Korean translation is accurate and maintains technical clarity\n\n3. Test usability with VS Code Copilot:\n   - Open VS Code with the GitHub Copilot extension enabled\n   - Verify that Copilot can access and utilize the instructions when working on Taskmaster-related tasks\n   - Test specific prompts related to workflow processes to ensure Copilot provides appropriate guidance\n   - Confirm the `codeGeneration.instructions` setting properly includes the workflow guide\n\n4. Review with Korean-speaking developers:\n   - Have at least one Korean-speaking team member review the translation for accuracy and clarity\n   - Collect feedback on any terminology that needs adjustment or clarification\n\n5. Integration testing:\n   - Verify that the instructions work well with the entire set of Copilot instructions\n   - Test the workflow by following the instructions to complete a sample development task\n   - Verify that TypeScript interfaces and code examples are correctly formatted and usable",
+        "subtasks": [
+          {
+            "id": "16.1",
+            "description": "Create `.github/instructions/taskmaster-workflow.instructions.md` file",
+            "status": "done"
+          },
+          {
+            "id": "16.2",
+            "description": "Translate and structure the 11 key sections of the workflow guide",
+            "status": "done"
+          },
+          {
+            "id": "16.3",
+            "description": "Include TypeScript interfaces and code examples in the translated document",
+            "status": "done"
+          },
+          {
+            "id": "16.4",
+            "description": "Update VS Code configuration to include the workflow guide in `codeGeneration.instructions`",
+            "status": "done"
+          },
+          {
+            "id": "16.5",
+            "description": "Conduct final review with Korean-speaking team member",
+            "status": "in-progress"
+          },
+          {
+            "id": "16.6",
+            "description": "Test the instructions with VS Code Copilot to verify functionality",
+            "status": "pending"
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Extend Taskmaster's initialize_project to Auto-Generate VS Code and GitHub Instruction Folders",
+        "description": "Enhance the initialize_project functionality to automatically create .github/instructions/ and .vscode/ folders with template files when initializing new projects.",
+        "details": "This task involves extending the Taskmaster's initialize_project functionality to automatically set up development environment files:\n\n1. Modify the initialize_project function to include the following additional steps:\n   - Create .github/instructions/ directory structure\n   - Create .vscode/ directory\n   - Copy template files to these directories\n\n2. Implement template management:\n   - Create a templates/ directory in the Taskmaster codebase\n   - Add template versions of all instruction files:\n     - All Korean instruction files from .github/instructions/\n     - VS Code settings.json with Copilot configurations\n     - .github/copilot-instructions.md\n\n3. Update the code to copy these templates during project initialization:\n```typescript\n// Example implementation in initialize_project.ts\nfunction initializeVSCodeEnvironment(projectPath: string): void {\n  const templatePath = path.join(__dirname, '../templates');\n  \n  // Create directories\n  fs.mkdirSync(path.join(projectPath, '.github/instructions'), { recursive: true });\n  fs.mkdirSync(path.join(projectPath, '.vscode'), { recursive: true });\n  \n  // Copy instruction files\n  copyTemplateFiles(\n    path.join(templatePath, 'github/instructions'), \n    path.join(projectPath, '.github/instructions')\n  );\n  \n  // Copy VS Code settings\n  fs.copyFileSync(\n    path.join(templatePath, 'vscode/settings.json'),\n    path.join(projectPath, '.vscode/settings.json')\n  );\n  \n  // Copy main Copilot instructions\n  fs.copyFileSync(\n    path.join(templatePath, 'github/copilot-instructions.md'),\n    path.join(projectPath, '.github/copilot-instructions.md')\n  );\n}\n```\n\n4. Add a helper function to recursively copy template files:\n```typescript\nfunction copyTemplateFiles(sourcePath: string, targetPath: string): void {\n  if (!fs.existsSync(targetPath)) {\n    fs.mkdirSync(targetPath, { recursive: true });\n  }\n  \n  const files = fs.readdirSync(sourcePath);\n  \n  for (const file of files) {\n    const sourceFilePath = path.join(sourcePath, file);\n    const targetFilePath = path.join(targetPath, file);\n    \n    if (fs.statSync(sourceFilePath).isDirectory()) {\n      copyTemplateFiles(sourceFilePath, targetFilePath);\n    } else {\n      fs.copyFileSync(sourceFilePath, targetFilePath);\n    }\n  }\n}\n```\n\n5. Update the main initialize_project function to call this new functionality:\n```typescript\nexport function initialize_project(projectPath: string, options: InitOptions): void {\n  // Existing initialization code...\n  \n  // Add VS Code and GitHub instruction setup\n  initializeVSCodeEnvironment(projectPath);\n  \n  console.log('VS Code environment and GitHub instructions successfully initialized.');\n}\n```\n\n6. Ensure all template files are properly formatted and contain the latest versions of instructions.",
+        "testStrategy": "1. Unit Testing:\n   - Write unit tests for the new functions (initializeVSCodeEnvironment, copyTemplateFiles)\n   - Test with various project paths and configurations\n   - Verify error handling for cases like missing templates or permission issues\n\n2. Integration Testing:\n   - Create a test project using the initialize_project function\n   - Verify all expected directories are created:\n     - .github/instructions/\n     - .vscode/\n   - Verify all expected files are created:\n     - All instruction files in .github/instructions/\n     - .vscode/settings.json with Copilot settings\n     - .github/copilot-instructions.md\n\n3. Content Validation:\n   - Check that the content of copied files matches the templates\n   - Verify that settings.json contains the correct Copilot configurations\n   - Ensure all instruction files are properly formatted\n\n4. Manual Testing:\n   - Initialize a new project using the command line interface\n   - Open the project in VS Code and verify that Copilot settings are applied\n   - Test that Copilot correctly uses the instruction files\n   - Verify the development workflow with the new environment setup\n\n5. Documentation:\n   - Update the Taskmaster documentation to reflect the new initialization features\n   - Document the template structure for future maintenance",
+        "status": "pending",
+        "dependencies": [
+          2,
+          3,
+          13,
+          14,
+          15,
+          16
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create templates directory structure with template files",
+            "description": "Set up a templates directory in the Taskmaster codebase with all necessary template files for GitHub instructions and VS Code settings.",
+            "dependencies": [],
+            "details": "1. Create a templates/ directory in the Taskmaster codebase root\n2. Create subdirectories templates/github/instructions/ and templates/vscode/\n3. Add template versions of Korean instruction files to templates/github/instructions/\n4. Create templates/github/copilot-instructions.md with standard Copilot instructions\n5. Create templates/vscode/settings.json with Copilot configurations\n6. Ensure all template files have appropriate content and formatting\n<info added on 2025-06-15T04:18:54.244Z>\n템플릿 디렉토리 구조 생성 완료\n\n성공적으로 완료한 작업들:\n\n1. **템플릿 디렉토리 생성**:\n   - `.taskmaster/templates/github/instructions/` 디렉토리 생성\n   - `.taskmaster/templates/vscode/` 디렉토리 생성\n   - `.taskmaster/templates/github/` 디렉토리 생성\n\n2. **템플릿 파일 복사**:\n   - 모든 GitHub instruction 파일들을 templates 디렉토리로 복사\n   - copilot-instructions.md 파일 복사\n   - VS Code settings.json 파일 복사\n\n3. **설정 스크립트 생성**:\n   - setup-vscode.sh (Bash 버전) \n   - setup-vscode.js (Node.js 버전)\n   - 두 스크립트 모두 실행 권한 부여\n\n4. **문서화**:\n   - README.md 생성 (사용법 및 구조 설명)\n\n5. **테스트 완료**:\n   - 임시 디렉토리에서 스크립트 실행 테스트\n   - 모든 파일이 정상적으로 복사되는 것 확인\n   - 스크립트가 예상대로 작동하는 것 검증\n\n다음 단계는 이제 실제 Taskmaster initialize_project 함수에 이 기능을 통합하는 것입니다.\n</info added on 2025-06-15T04:18:54.244Z>",
+            "status": "done",
+            "testStrategy": "Verify all template files exist in the correct directory structure and contain appropriate content."
+          },
+          {
+            "id": 2,
+            "title": "Implement helper function for recursive file copying",
+            "description": "Create a utility function that can recursively copy files and directories from source to target paths.",
+            "dependencies": [],
+            "details": "1. Implement the copyTemplateFiles function as shown in the task description\n2. Ensure it handles both files and directories correctly\n3. Add proper error handling for file operations\n4. Make sure the function creates target directories if they don't exist\n5. Add appropriate logging for debugging purposes",
+            "status": "pending",
+            "testStrategy": "Test with various directory structures to ensure all files are copied correctly while maintaining the directory hierarchy."
+          },
+          {
+            "id": 3,
+            "title": "Implement VS Code environment initialization function",
+            "description": "Create a function to initialize the VS Code environment by creating necessary directories and copying template files.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "1. Implement the initializeVSCodeEnvironment function as outlined in the task description\n2. Ensure it creates the .vscode/ directory in the project\n3. Copy the settings.json template to the .vscode/ directory\n4. Add error handling for file operations\n5. Include appropriate logging for successful operations",
+            "status": "pending",
+            "testStrategy": "Test by calling the function with a test project path and verifying the .vscode directory and settings.json file are created correctly."
+          },
+          {
+            "id": 4,
+            "title": "Implement GitHub instructions initialization function",
+            "description": "Create a function to initialize GitHub instructions by creating necessary directories and copying template files.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "1. Create a function initializeGitHubInstructions that creates the .github/instructions/ directory structure\n2. Use the copyTemplateFiles helper to copy all instruction templates from templates/github/instructions/ to the project's .github/instructions/ directory\n3. Copy the copilot-instructions.md template to the project's .github/ directory\n4. Add error handling for file operations\n5. Include appropriate logging for successful operations",
+            "status": "pending",
+            "testStrategy": "Test by calling the function with a test project path and verifying the .github directory structure and all instruction files are created correctly."
+          },
+          {
+            "id": 5,
+            "title": "Update initialize_project function to include new initialization steps",
+            "description": "Modify the existing initialize_project function to call the new VS Code and GitHub instructions initialization functions.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "1. Locate the existing initialize_project function in the codebase\n2. Add calls to initializeVSCodeEnvironment and initializeGitHubInstructions after the existing initialization code\n3. Pass the projectPath parameter to these functions\n4. Add a console log message indicating successful VS Code and GitHub instructions initialization\n5. Update any relevant documentation or comments to reflect the new functionality\n6. Ensure the function handles errors gracefully",
+            "status": "pending",
+            "testStrategy": "Test the full initialize_project function with a new project path and verify that all directories and files are created correctly, including both the existing project structure and the new VS Code and GitHub instruction files."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-15T03:32:34.425Z",
+      "updated": "2025-06-15T04:18:59.254Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

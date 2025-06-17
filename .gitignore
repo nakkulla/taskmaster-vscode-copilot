@@ -1,0 +1,36 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Other AI Editor directories and files (but keep .vscode and .github)
+.cursor/
+.roo/
+.roomodes
+.windsurf/
+.windsurfrules
+.v0/
+.bolt/
+.replit/
+.anthropic/
+.claude/
+
+# IDE directories and files (except VS Code)
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
