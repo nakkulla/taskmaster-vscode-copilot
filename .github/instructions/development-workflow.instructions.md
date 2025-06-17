@@ -13,9 +13,10 @@ applyTo: "**/*.{js,ts,jsx,tsx,py}"
 - 일관된 코딩 스타일 유지
 
 ### Taskmaster 통합
-- 새로운 기능 개발 시 add_task로 작업 추가
-- 복잡한 기능은 expand_task로 세분화
-- 작업 진행상황을 update_subtask로 지속적으로 기록
+- 새로운 기능 개발 시 add_task로 작업 추가 (한국어 프롬프트 사용)
+- 복잡한 기능은 expand_task로 세분화 (한국어 하위 작업 생성)
+- 작업 진행상황을 update_subtask로 지속적으로 기록 (한국어 진행 보고)
+- 모든 작업 제목과 설명은 한국어로 작성
 
 ## 커밋 메시지 가이드
 
