@@ -23,7 +23,7 @@
 
 ### 1. 환경 설정 함수 설치
 ```bash
-curl -sSL https://raw.githubusercontent.com/your-repo/taskmaster/main/.taskmaster/install-functions.sh | bash
+curl -sSL https://raw.githubusercontent.com/nakkulla/taskmaster-vscode-copilot/main/.taskmaster/install-functions.sh | bash
 ```
 
 ### 2. VS Code 환경 설정
