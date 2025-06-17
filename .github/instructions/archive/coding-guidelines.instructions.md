@@ -1,6 +1,6 @@
 ---
 description: "VS Code 개발 환경을 위한 코딩 가이드라인 및 문서화 규칙"
-applyTo: "**/*.{js,ts,jsx,tsx,py,md,json,yaml,yml}"
+applyTo: "**/*.{js,ts,jsx,tsx,py}"
 ---
 
 # VS Code 개발 환경 코딩 가이드라인
@@ -292,6 +292,41 @@ describe('사용자 인증 서비스', () => {
  * □ API 문서 업데이트 완료
  * □ 오류 처리 로직 구현 완료
  */
+```
+
+## MCP 도구 통합 활용
+
+### 코드 작성 전 준비
+코드 작성 시작 전 MCP 도구들을 활용한 체계적 준비:
+
+```typescript
+// 새로운 기능 구현 시 MCP 도구 활용 순서
+// 1. sequentialthinking으로 구현 계획 수립
+// 2. mcp_context7로 필요한 라이브러리 문서 조회  
+// 3. mcp_tavily-search로 최신 패턴 및 베스트 프랙티스 조사
+// 4. add_task로 Taskmaster에 작업 등록
+// 5. expand_task로 세부 구현 단계 분해
+// 6. 각 단계별로 update_subtask로 진행 상황 기록
+```
+
+### 코드 리뷰 및 개선
+```typescript
+// 코드 품질 향상을 위한 MCP 도구 활용
+// 1. mcp_github_search_code로 기존 유사 코드 패턴 검색
+// 2. research 도구로 현재 코드의 개선점 분석
+// 3. sequentialthinking으로 리팩터링 계획 수립
+// 4. mcp_obsidian으로 개선 사항 문서화
+// 5. GitHub MCP로 PR 및 코드 리뷰 관리
+```
+
+### 오류 처리 및 디버깅
+```typescript
+// 체계적 디버깅을 위한 MCP 도구 활용
+// 1. sequentialthinking으로 문제 원인 단계별 분석
+// 2. mcp_tavily-search로 유사한 오류 사례 검색
+// 3. mcp_github_search_code로 관련 코드 패턴 조사
+// 4. 해결 과정을 update_subtask로 상세 기록
+// 5. 해결책을 mcp_obsidian으로 지식베이스에 저장
 ```
 
 ## 코드 리뷰 가이드라인

@@ -12,6 +12,17 @@ applyTo: "**/*.{js,ts,py,md,json}"
 - **complexity_report**: 복잡도 분석 결과 확인
 - **research**: AI 기반 최신 정보 연구 (Perplexity 활용)
 
+### 외부 MCP 도구와의 연계
+```typescript
+// 고급 연구 및 분석 워크플로우
+// 1. sequentialthinking으로 분석 방향 설정
+// 2. mcp_tavily-search로 최신 트렌드 조사
+// 3. mcp_context7로 기술 문서 상세 분석
+// 4. research로 프로젝트별 맞춤 인사이트 도출
+// 5. analyze_project_complexity로 구체적 복잡도 측정
+// 6. mcp_obsidian으로 분석 결과 체계적 문서화
+```
+
 ### 의존성 관리
 - **add_dependency**: 작업 간 의존관계 설정
 - **remove_dependency**: 의존관계 제거

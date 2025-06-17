@@ -33,13 +33,18 @@ Taskmaster를 사용한 효율적인 개발 사이클:
 새 프로젝트나 사용자가 시작할 때는 `master` 태그 컨텍스트에서 작업합니다:
 
 - `initialize_project` 또는 `parse_prd`로 새 프로젝트 시작
-- `get_tasks`로 현재 작업, 상태, ID 확인
+- **한국어 PRD 작성**: 프로젝트 요구사항을 자연스러운 한국어로 작성
+- `get_tasks`로 현재 작업, 상태, ID 확인 (한국어 작업 제목 확인)
+- **작업 브리핑 및 승인**: 
+  - `analyze_project_complexity --research`로 작업 분해 전 복잡도 분석
+  - `complexity_report`로 복잡도 분석 결과 검토
+  - 전체 작업 계획을 사용자에게 브리핑
+  - 필요한 조정사항 반영 (`add_task`, `remove_task`, `update_task`, `move_task`)
+  - 사용자 최종 승인 후 개발 시작
 - `next_task`로 다음 작업 결정
-- `analyze_project_complexity --research`로 작업 분해 전 복잡도 분석
-- `complexity_report`로 복잡도 분석 결과 검토
 - 의존성(모두 'done' 표시), 우선순위, ID 순서를 기반으로 작업 선택
-- `get_task`으로 구현 요구사항 파악
-- `expand_task --force --research`로 복잡한 작업 분해
+- `get_task`으로 구현 요구사항 파악 (한국어 세부사항 확인)
+- `expand_task --force --research`로 복잡한 작업 분해 (한국어 하위 작업 생성)
 - 작업 세부사항, 의존성, 프로젝트 표준에 따라 코드 구현
 - `set_task_status --status=done`으로 완료 작업 표시
 - 구현이 원래 계획과 다를 경우 `update` 또는 `update_task`로 의존 작업 업데이트
@@ -54,19 +59,19 @@ Taskmaster를 사용한 효율적인 개발 사이클:
 
 ### 작업 진행 프로세스
 ```typescript
-// 1. 작업 상세 정보 확인
+// 1. 작업 상세 정보 확인 (한국어)
 // get_task로 구현 요구사항 파악
 
-// 2. 복잡한 작업 분해
+// 2. 복잡한 작업 분해 (한국어 하위 작업 생성)
 // expand_task --force --research로 하위 작업 생성
 
-// 3. 코드 구현
+// 3. 코드 구현 (한국어 주석 및 문서화)
 // 작업 세부사항, 의존성, 프로젝트 표준 준수
 
 // 4. 완료 표시
 // set_task_status --status=done으로 완료 처리
 
-// 5. 의존 작업 업데이트
+// 5. 의존 작업 업데이트 (한국어 설명)
 // 구현이 원래 계획과 다를 경우 update 또는 update_task 사용
 ```
 
@@ -130,16 +135,35 @@ git checkout -b feature/user-auth
 ### 작업 구조 이해
 ```typescript
 interface Task {
-  id: string;              // 고유 식별자 (예: "1", "1.1")
-  title: string;           // 간단한 설명 제목
-  description: string;     // 작업 내용 요약
-  status: string;          // 현재 상태 ("pending", "done", "deferred")
-  dependencies: string[];  // 선행 작업 ID 목록
-  priority: string;        // 중요도 ("high", "medium", "low")
-  details: string;         // 상세 구현 지침
-  testStrategy: string;    // 검증 방법
-  subtasks: Task[];        // 하위 작업 목록
+  id: number;             // JSON에서는 숫자 (예: 1, 4.1)
+  title: string;          // 간단한 설명 제목
+  description: string;    // 작업 내용 요약
+  status: string;         // 현재 상태 ("pending", "done", "deferred")
+  dependencies: number[]; // 선행 작업 ID 목록
+  priority: string;       // 중요도 ("high", "medium", "low")
+  details: string;        // 상세 구현 지침
+  testStrategy: string;   // 검증 방법
+  subtasks: Task[];       // 하위 작업 목록
 }
+
+// MCP 전송 시 모든 ID는 숫자로 사용
+// 예: 4.1, 15
+```
+
+### 하위 작업 조회 및 조작
+```typescript
+// ✅ 올바른 하위 작업 조회 방법
+get_task --id=4  // 부모 작업 조회 (하위 작업 포함)
+// 응답의 subtasks 배열에서 원하는 하위 작업 확인
+
+// ✅ 하위 작업 상태 변경
+set_task_status --id=4.1 --status="done"
+
+// ✅ 하위 작업 진행 상황 업데이트  
+update_subtask --id=4.7 --prompt="68개 파일 분류 진행 중"
+
+// ❌ 지원하지 않는 방식
+get_task --id=4.1  // 하위 작업 독립 조회 불가
 ```
 
 ### 의존성 관리
@@ -172,7 +196,8 @@ interface Task {
 ### 반복적 구현 사이클
 ```typescript
 // 1. 목표 이해
-// get_task <하위작업ID>로 요구사항 파악
+// get_task <부모ID>로 하위 작업 요구사항 파악
+// 예: get_task --id=4로 조회 후 subtasks에서 4.7 확인
 
 // 2. 초기 탐색 및 계획
 // - 코드베이스 탐색하여 수정할 파일/함수 식별
@@ -180,14 +205,15 @@ interface Task {
 // - 모든 관련 세부사항 수집
 
 // 3. 계획 기록
-// update_subtask --id=<하위작업ID> --prompt='<상세 계획>'
+// update_subtask --id=4.7 --prompt='<상세 계획>'
 // 파일 경로, 라인 번호, 제안된 diff, 추론, 잠재적 문제점 포함
 
 // 4. 계획 검증
-// get_task <하위작업ID>로 계획이 성공적으로 기록되었는지 확인
+// get_task --id=4로 계획이 성공적으로 기록되었는지 확인
+// subtasks 배열에서 해당 하위 작업의 details 확인
 
 // 5. 구현 시작
-// set_task_status --id=<하위작업ID> --status=in-progress
+// set_task_status --id=4.7 --status="in-progress"
 
 // 6. 진행 상황 기록 (지속적)
 // update_subtask로 다음 내용 기록:
@@ -201,7 +227,7 @@ interface Task {
 // 구현 완료 후 새로운 패턴이나 관습 식별 및 문서화
 
 // 8. 작업 완료 표시
-// set_task_status --id=<하위작업ID> --status=done
+// set_task_status --id=4.7 --status="done"
 
 // 9. Git 커밋
 // 코드 변경사항과 규칙 업데이트를 포함한 포괄적 커밋
@@ -293,3 +319,26 @@ rg "export (async function|function|const) \w+"
 ```
 
 이 가이드를 통해 Taskmaster를 활용한 체계적이고 효율적인 개발 워크플로우를 구축하세요.
+
+## PRD 및 작업 작성 가이드라인
+
+### PRD 작성 원칙
+- 프로젝트 개요와 목표를 명확한 한국어로 작성
+- 기능 요구사항은 사용자 관점에서 한국어로 서술
+- 기술적 제약사항과 가정도 한국어로 명시
+- 우선순위와 일정은 구체적으로 한국어로 표현
+
+### 작업 생성 시 한국어 사용
+- `add_task --prompt="사용자 로그인 기능 구현"` (한국어 프롬프트)
+- `update_task --prompt="데이터베이스 연결 오류 해결 방안 추가"` (한국어 업데이트)
+- `expand_task --prompt="React 컴포넌트를 세부 작업으로 분해"` (한국어 확장 지시)
+
+### 작업 내용 한국어화 예시
+```
+작업 제목: "사용자 인증 시스템 구현"
+작업 설명: "JWT 토큰 기반 로그인/로그아웃 기능을 개발하여 사용자 인증을 처리합니다."
+세부사항: "1. 로그인 API 엔드포인트 생성
+          2. JWT 토큰 생성 및 검증 로직 구현
+          3. 프론트엔드 로그인 폼 개발
+          4. 토큰 저장 및 자동 로그인 처리"
+```

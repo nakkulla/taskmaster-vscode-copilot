@@ -1,6 +1,6 @@
 ---
 description: "개발 워크플로우 및 베스트 프랙티스"
-applyTo: "**/*.{js,ts,jsx,tsx,py,md}"
+applyTo: "**/*.{js,ts,jsx,tsx,py}"
 ---
 
 # 개발 워크플로우 가이드
@@ -13,9 +13,25 @@ applyTo: "**/*.{js,ts,jsx,tsx,py,md}"
 - 일관된 코딩 스타일 유지
 
 ### Taskmaster 통합
-- 새로운 기능 개발 시 add_task로 작업 추가
-- 복잡한 기능은 expand_task로 세분화
-- 작업 진행상황을 update_subtask로 지속적으로 기록
+- 새로운 기능 개발 시 add_task로 작업 추가 (한국어 프롬프트 사용)
+- 복잡한 기능은 expand_task로 세분화 (한국어 하위 작업 생성)
+- 작업 진행상황을 update_subtask로 지속적으로 기록 (한국어 진행 보고)
+- 모든 작업 제목과 설명은 한국어로 작성
+
+### MCP 도구 활용 워크플로우
+```typescript
+// 기능 개발 시 MCP 도구 통합 워크플로우
+// 1. 요구사항 분석: sequentialthinking으로 복잡한 요구사항 단계별 분석
+// 2. 기술 조사: mcp_tavily-search로 최신 기술 트렌드 조사
+// 3. 라이브러리 선택: mcp_context7로 라이브러리 문서 비교 분석
+// 4. 작업 계획: add_task로 Taskmaster 작업 생성
+// 5. 세부 분해: expand_task로 구현 단계 세분화
+// 6. GitHub 연동: mcp_github_create_issue로 이슈 생성
+// 7. 브랜치 생성: mcp_github_create_branch로 개발 브랜치 생성
+// 8. 구현 진행: update_subtask로 진행 상황 기록
+// 9. 지식 저장: mcp_obsidian으로 학습 내용 문서화
+// 10. 코드 리뷰: mcp_github_create_pull_request로 PR 생성
+```
 
 ## 커밋 메시지 가이드
 

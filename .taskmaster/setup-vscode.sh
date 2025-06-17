@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# Taskmaster VS Code Environment Setup Script
-# This script copies VS Code instruction files and settings to a new project
+# Taskmaster VS Code 환경 설정 스크립트 v2.0
+# 이 스크립트는 통합된 instruction 파일과 설정을 새 프로젝트에 복사합니다
+# 한국어 PRD 및 작업 생성을 위한 환경을 설정합니다
+# 2025-06-17: instruction 파일들이 통합된 구조로 업데이트됨
+# 
+# 주요 특징:
+# - taskmaster.instructions.md 단일 통합 가이드
+# - PRD → 브리핑 → 피드백 → 승인 → 개발 워크플로우
+# - 주요 MCP 도구(Sequential Thinking, Tavily, Context7, GitHub, Obsidian) 통합 활용
 
 set -e
 
@@ -43,14 +50,14 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --help)
-            echo "Usage: $0 [target-directory] [options]"
+            echo "사용법: $0 [대상-디렉토리] [옵션]"
             echo ""
-            echo "Options:"
-            echo "  --clean-all   Automatically remove all other editor configurations"
-            echo "  --clean-none  Skip cleanup of other editor configurations"
-            echo "  --help        Show this help message"
+            echo "옵션:"
+            echo "  --clean-all   모든 다른 에디터 설정을 자동으로 제거"
+            echo "  --clean-none  다른 에디터 설정 정리 건너뛰기"
+            echo "  --help        이 도움말 메시지 표시"
             echo ""
-            echo "Without options, the script will ask before removing each configuration."
+            echo "옵션 없이 실행하면 각 설정에 대해 제거 여부를 묻습니다."
             exit 0
             ;;
         *)
@@ -73,72 +80,97 @@ fi
 # Resolve absolute path
 PROJECT_DIR=$(cd "$PROJECT_DIR" && pwd)
 
-print_info "Setting up VS Code environment for project: $PROJECT_DIR"
+print_info "프로젝트를 위한 VS Code 환경을 설정합니다: $PROJECT_DIR"
 
 # Check if Taskmaster is initialized
 if [ ! -d "$PROJECT_DIR/.taskmaster" ]; then
-    print_error "Taskmaster not initialized in this project."
-    print_info "Please run 'taskmaster init' first."
+    print_error "이 프로젝트에서 Taskmaster가 초기화되지 않았습니다."
+    print_info "먼저 'taskmaster init'을 실행해주세요."
     exit 1
 fi
 
 # Check if templates exist
 TEMPLATES_DIR="$PROJECT_DIR/.taskmaster/templates"
 if [ ! -d "$TEMPLATES_DIR" ]; then
-    print_error "Templates directory not found."
-    print_info "Please ensure you have the latest Taskmaster templates."
+    print_error "템플릿 디렉토리를 찾을 수 없습니다."
+    print_info "최신 Taskmaster 템플릿이 있는지 확인해주세요."
     exit 1
 fi
 
 # Create directories
-print_info "Creating directories..."
+print_info "디렉토리 생성 중..."
 
 mkdir -p "$PROJECT_DIR/.github/instructions"
 mkdir -p "$PROJECT_DIR/.vscode"
 
-print_success "Directories created"
+print_success "디렉토리가 생성되었습니다"
 
 # Copy GitHub instruction files
-print_info "Copying GitHub instruction files..."
+print_info "GitHub instruction 파일 복사 중..."
 
 if [ -d "$TEMPLATES_DIR/github/instructions" ]; then
-    cp -r "$TEMPLATES_DIR/github/instructions/"* "$PROJECT_DIR/.github/instructions/"
-    print_success "GitHub instruction files copied"
+    # Check if template files exist and are not empty
+    template_files_count=$(find "$TEMPLATES_DIR/github/instructions" -name "*.instructions.md" | wc -l)
+    if [ "$template_files_count" -gt 0 ]; then
+        cp -r "$TEMPLATES_DIR/github/instructions/"* "$PROJECT_DIR/.github/instructions/"
+        print_success "GitHub instruction 파일이 복사되었습니다"
+        print_info "복사된 파일: $template_files_count개"
+    else
+        print_warning "템플릿 파일이 비어있습니다. 현재 프로젝트의 파일을 템플릿으로 업데이트합니다."
+        
+        # Get the source directory (current script location)
+        SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        SOURCE_INSTRUCTIONS_DIR="$(dirname "$SCRIPT_DIR")/.github/instructions"
+        
+        if [ -d "$SOURCE_INSTRUCTIONS_DIR" ]; then
+            # Update templates from source
+            cp "$SOURCE_INSTRUCTIONS_DIR"/* "$TEMPLATES_DIR/github/instructions/"
+            print_info "템플릿 파일이 업데이트되었습니다"
+            
+            # Now copy to target
+            cp -r "$TEMPLATES_DIR/github/instructions/"* "$PROJECT_DIR/.github/instructions/"
+            print_success "GitHub instruction 파일이 복사되었습니다"
+        else
+            print_error "소스 instruction 파일을 찾을 수 없습니다"
+        fi
+    fi
 else
-    print_warning "GitHub instruction templates not found"
+    print_warning "GitHub instruction 템플릿을 찾을 수 없습니다"
 fi
 
 # Copy Copilot instructions
+print_info "Copilot 지침 파일 복사 중..."
 if [ -f "$TEMPLATES_DIR/github/copilot-instructions.md" ]; then
     cp "$TEMPLATES_DIR/github/copilot-instructions.md" "$PROJECT_DIR/.github/"
-    print_success "Copilot instructions copied"
+    print_success "Copilot 지침이 복사되었습니다"
 else
-    print_warning "Copilot instructions template not found"
+    print_warning "Copilot 지침 템플릿을 찾을 수 없습니다"
 fi
 
 # Copy VS Code settings
+print_info "VS Code 설정 파일 복사 중..."
 if [ -f "$TEMPLATES_DIR/vscode/settings.json" ]; then
     if [ -f "$PROJECT_DIR/.vscode/settings.json" ]; then
-        print_warning "VS Code settings.json already exists"
-        read -p "Do you want to overwrite it? (y/N): " -n 1 -r
+        print_warning "VS Code settings.json이 이미 존재합니다"
+        read -p "덮어쓰시겠습니까? (y/N): " -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             cp "$TEMPLATES_DIR/vscode/settings.json" "$PROJECT_DIR/.vscode/"
-            print_success "VS Code settings overwritten"
+            print_success "VS Code 설정이 덮어쓰여졌습니다"
         else
-            print_info "VS Code settings skipped"
+            print_info "VS Code 설정을 건너뛰었습니다"
         fi
     else
         cp "$TEMPLATES_DIR/vscode/settings.json" "$PROJECT_DIR/.vscode/"
-        print_success "VS Code settings copied"
+        print_success "VS Code 설정이 복사되었습니다"
     fi
 else
-    print_warning "VS Code settings template not found"
+    print_warning "VS Code 설정 템플릿을 찾을 수 없습니다"
 fi
 
 # Clean up other editor configurations
 if [ "$CLEANUP_MODE" != "none" ]; then
-    print_info "Cleaning up other editor configurations..."
+    print_info "다른 에디터 설정 정리 중..."
     
     # Define editor configurations to check (format: "path:description:type")
     EDITOR_CONFIGS=(
@@ -171,7 +203,7 @@ if [ "$CLEANUP_MODE" != "none" ]; then
     # Process found configurations
     if [ ${#FOUND_CONFIGS[@]} -gt 0 ]; then
         if [ "$CLEANUP_MODE" == "all" ]; then
-            print_info "Automatically removing all other editor configurations..."
+            print_info "모든 다른 에디터 설정을 자동으로 제거합니다..."
             for config_entry in "${FOUND_CONFIGS[@]}"; do
                 config_path="${config_entry%%:*}"
                 config_rest="${config_entry#*:}"
@@ -180,9 +212,9 @@ if [ "$CLEANUP_MODE" != "none" ]; then
                 
                 rm -rf "$PROJECT_DIR/$config_path"
                 if [ "$config_type" = "dir" ]; then
-                    print_success "$config_path directory removed ($config_desc)"
+                    print_success "$config_path 디렉토리가 제거되었습니다 ($config_desc)"
                 else
-                    print_success "$config_path file removed ($config_desc)"
+                    print_success "$config_path 파일이 제거되었습니다 ($config_desc)"
                 fi
             done
         else
@@ -194,40 +226,40 @@ if [ "$CLEANUP_MODE" != "none" ]; then
                 config_type="${config_rest##*:}"
                 
                 if [ "$config_type" = "dir" ]; then
-                    print_warning "Found $config_path directory ($config_desc)"
-                    read -p "Do you want to remove the $config_path directory? (y/N): " -n 1 -r
+                    print_warning "$config_path 디렉토리를 발견했습니다 ($config_desc)"
+                    read -p "$config_path 디렉토리를 제거하시겠습니까? (y/N): " -n 1 -r
                 else
-                    print_warning "Found $config_path file ($config_desc)"
-                    read -p "Do you want to remove the $config_path file? (y/N): " -n 1 -r
+                    print_warning "$config_path 파일을 발견했습니다 ($config_desc)"
+                    read -p "$config_path 파일을 제거하시겠습니까? (y/N): " -n 1 -r
                 fi
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -rf "$PROJECT_DIR/$config_path"
                     if [ "$config_type" = "dir" ]; then
-                        print_success "$config_path directory removed"
+                        print_success "$config_path 디렉토리가 제거되었습니다"
                     else
-                        print_success "$config_path file removed"
+                        print_success "$config_path 파일이 제거되었습니다"
                     fi
                 else
                     if [ "$config_type" = "dir" ]; then
-                        print_info "$config_path directory kept"
+                        print_info "$config_path 디렉토리를 유지합니다"
                     else
-                        print_info "$config_path file kept"
+                        print_info "$config_path 파일을 유지합니다"
                     fi
                 fi
             done
         fi
     else
-        print_info "No other editor configurations found"
+        print_info "다른 에디터 설정을 찾을 수 없습니다"
     fi
 else
-    print_info "Skipping cleanup of other editor configurations (--clean-none option)"
+    print_info "다른 에디터 설정 정리를 건너뜁니다 (--clean-none 옵션)"
 fi
 
 print_info ""
 
 # List created files
-print_info "Created files and directories:"
+print_info "생성된 파일 및 디렉토리:"
 echo "  📁 .github/"
 echo "  📁 .github/instructions/"
 if [ -d "$PROJECT_DIR/.github/instructions" ]; then
@@ -245,10 +277,23 @@ if [ -f "$PROJECT_DIR/.vscode/settings.json" ]; then
     echo "    📄 settings.json"
 fi
 
-print_success "VS Code environment setup complete!"
+print_success "VS Code 환경 설정이 완료되었습니다!"
 print_info ""
-print_info "Next steps:"
-print_info "1. Open VS Code in this project directory"
-print_info "2. Install the GitHub Copilot extension if not already installed"
-print_info "3. Reload VS Code to apply the new settings"
-print_info "4. Start using Taskmaster with enhanced VS Code integration!"
+print_info "🎉 통합된 Taskmaster 가이드가 설정되었습니다!"
+print_info ""
+print_info "다음 단계:"
+print_info "1. 이 프로젝트 디렉토리에서 VS Code를 실행하세요"
+print_info "2. GitHub Copilot 확장이 설치되어 있지 않다면 설치하세요"
+print_info "3. 새 설정을 적용하기 위해 VS Code를 재시작하세요"
+print_info "4. 향상된 VS Code 통합 기능과 함께 Taskmaster 사용을 시작하세요!"
+print_info ""
+print_info "📋 주요 기능:"
+print_info "  • taskmaster.instructions.md - 모든 핵심 기능 통합 가이드"
+print_info "  • instruction-formatting.instructions.md - instruction 파일 작성 가이드"
+print_info "  • PRD → 브리핑 → 승인 → 개발 워크플로우"
+print_info "  • Sequential Thinking, Tavily, Context7, GitHub, Obsidian MCP 도구 활용"
+print_info "  • 한국어 기반 작업 관리 및 코딩 가이드라인"
+print_info "  • TypeScript 타입 정의 및 오류 처리 패턴"
+print_info ""
+print_info "💡 팁: PRD 파일 작성 시 한국어로 작성하면 자동으로 한국어 작업이 생성됩니다"
+print_info "📖 archive 폴더에는 이전 instruction 파일들이 참고용으로 보관되어 있습니다"

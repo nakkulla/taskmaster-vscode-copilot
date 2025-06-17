@@ -22,22 +22,7 @@
       "file": ".github/copilot-instructions.md"
     },
     {
-      "file": ".github/instructions/taskmaster-basic.instructions.md"
-    },
-    {
-      "file": ".github/instructions/taskmaster-advanced.instructions.md"
-    },
-    {
-      "file": ".github/instructions/development-workflow.instructions.md"
-    },
-    {
-      "file": ".github/instructions/code-improvement.instructions.md"
-    },
-    {
-      "file": ".github/instructions/coding-guidelines.instructions.md"
-    },
-    {
-      "file": ".github/instructions/taskmaster-workflow.instructions.md"
+      "file": ".github/instructions/taskmaster.instructions.md"
     },
     {
       "file": ".github/instructions/instruction-formatting.instructions.md"
@@ -67,7 +52,7 @@
       "text": "Taskmaster 작업과 연관된 코드의 경우 해당 작업 맥락을 고려하여 리뷰합니다."
     },
     {
-      "file": ".github/instructions/code-improvement.instructions.md"
+      "file": ".github/instructions/taskmaster.instructions.md"
     }
   ],
   "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
